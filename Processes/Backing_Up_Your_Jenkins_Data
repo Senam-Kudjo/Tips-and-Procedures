@@ -1,0 +1,17 @@
+Steps for Jenkins Backup
+1) Identify Important Directories: The Jenkins home directory, typically /var/lib/jenkins, holds all configurations, job definitions, and plugins. This is the main directory to back up.
+2) Create the Backup: You can use a simple tar command to archive this directory:
+
+tar -czvf /backup/jenkins-backup.tar.gz -C /var/lib/jenkins .
+
+3) Automate with Cron Jobs: For regular backups, use a cron job to schedule backups daily or weekly, depending on the frequency of your changes.
+
+Restoring Jenkins from a Backup
+1) Stop Jenkins: Safely stop Jenkins before restoring files to avoid conflicts.
+2) Extract the Backup:
+
+tar -xzvf /backup/jenkins-backup.tar.gz -C /var/lib/jenkins
+
+3) Start Jenkins: Once restored, start Jenkins, and verify that jobs, configurations, and plugins are intact.
+
+Regular backups ensure you can quickly recover from unexpected issues or migrate smoothly. Make backup & restore a part of your Jenkins maintenance routine to protect your pipeline setups and maintain CI/CD reliability!
