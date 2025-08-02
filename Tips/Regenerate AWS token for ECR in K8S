@@ -1,0 +1,31 @@
+So if you have your images saved in Amazon ECR ... you have to pass your AWS creds to your Kubernetes cluster to generate a token that the cluster can use to access or pull images in your ECR.
+Problem is, this token is only valid for about 12 hours I think.
+So we have to create a kubernetes secret object that will make sure your cluster has a new token every 8 hours
+And in other to do that we need to create a script that creates and deletes a kubernetes secret that is responsible for generating the needed token for the cluster every 8 hours.
+=================================================================
+
+1. vim secret_token.sh
+
+2.
+#!/bin/bash
+
+#start of secret_token.sh file
+microk8s kubectl delete secret etz-ecr -n main-etranzact-sandbox
+
+
+microk8s kubectl create secret docker-registry etz-ecr \
+  --namespace=main-etranzact-sandbox \
+  --docker-server=<ECR_ENDPOINT> \
+  --docker-username=AWS \
+  --docker-password=$(aws ecr get-login-password)
+
+#end of secret_token.sh file
+##save and quit file
+
+
+3. crontab -e
+
+# now insert this into your crontab editor
+* */8 * * * /path/to/secre_token_script
+
+
