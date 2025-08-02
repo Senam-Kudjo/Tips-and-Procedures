@@ -10,10 +10,10 @@ And in other to do that we need to create a script that creates and deletes a ku
 #!/bin/bash
 
 #start of secret_token.sh file
-microk8s kubectl delete secret etz-ecr -n main-etranzact-sandbox
+kubectl delete secret etz-ecr -n main-etranzact-sandbox
 
 
-microk8s kubectl create secret docker-registry etz-ecr \
+kubectl create secret docker-registry etz-ecr \
   --namespace=main-etranzact-sandbox \
   --docker-server=<ECR_ENDPOINT> \
   --docker-username=AWS \
